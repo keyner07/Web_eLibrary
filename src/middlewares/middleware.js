@@ -1,7 +1,8 @@
-const jwt = require('jsonwebtoken');
+const jwt = require('../auth/services');
 const moment = require('moment');
 
 exports.ensureAuthenticated = function(req, res, next) {
+  try {
   if(!req.headers.authorization) {
     return res
       .status(403)
@@ -9,7 +10,7 @@ exports.ensureAuthenticated = function(req, res, next) {
   }
   
   let token = req.headers.authorization.split(" ")[1];
-  let payload = jwt.decode(token);
+  let payload = jwt.verifyToken(token);
   
   if(payload.exp <= moment().unix()) {
      return res
@@ -17,9 +18,11 @@ exports.ensureAuthenticated = function(req, res, next) {
         .json({message: "El token ha expirado"});
   }
   
-  req.body= {
-      sub: payload.sub,
-      isAdmin: payload.admin
-  }
+  req.body= payload;
   next();
+}catch(err) {
+  res
+    .status(401)
+    .json({message: 'Acceso denegado'});
+}
 }

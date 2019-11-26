@@ -13,11 +13,11 @@ function signToken(user){
 function verifyToken(token){
     return jwt.verify(token, process.env.SECRET_TOKEN_JWT);
 }
-
-function decodeToken(token) {
-    let decodeToken = jwt.decode(token, process.env.SECRET_TOKEN_JWT);
-    return decodeToken.payload;
+function decodeToken(token){
+    return jwt.decode(token);
 }
+
+
 module.exports = {
     createToken: signToken,
     verifyToken,

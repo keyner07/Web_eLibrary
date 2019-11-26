@@ -5,10 +5,11 @@ const middleware = require('../middlewares/middleware');
 
 
 router.get('/books',middleware.ensureAuthenticated, function(req, res) {
-    if(req.body.isAdmin){
+    console.log(req.body);
+    if(req.body.admin){
         res.status(200).json({message: 'Eres admin'})
     }
-    else if(!req.body.isAdmin){
+    else if(!req.body.admin){
         res.json({message: 'No eres admin'})
     }
     else {
