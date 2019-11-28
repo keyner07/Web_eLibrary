@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const User = require('../../models/userModel');
-const service = require('../../auth/services');
 const encryption = require('../../auth/encryption');
 
 

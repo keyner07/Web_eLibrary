@@ -17,12 +17,21 @@ exports.ensureAuthenticated = function(req, res, next) {
      	.status(401)
         .json({message: "El token ha expirado"});
   }
-  
-  req.body= payload;
+ 
+  req.body.payload= payload;
   next();
 }catch(err) {
   res
     .status(401)
     .json({message: 'Acceso denegado'});
 }
+}
+
+exports.isAdmin = async function(req, res, next){
+  console.log(req.body.payload.admin);
+  if(req.body.payload.admin){
+    next();
+  }else{
+    res.status(401).json({ message: "No es admin"});
+  }
 }

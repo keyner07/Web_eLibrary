@@ -13,13 +13,9 @@ function signToken(user){
 function verifyToken(token){
     return jwt.verify(token, process.env.SECRET_TOKEN_JWT);
 }
-function decodeToken(token){
-    return jwt.decode(token);
-}
 
 
 module.exports = {
     createToken: signToken,
-    verifyToken,
-    decodeToken
+    verifyToken
 }
