@@ -5,7 +5,7 @@ const multer = require('multer');
 const { memoryStorage } = require('multer');
 const upload = require('../GCS/uploadFileGCS');
 const bookNetwork = require('../controllers/books/bookNetwork');
-
+const TTS = require('../GCS/text-to-speech');
 
 // Multer is required to process file uploads and make them available via
 // req.files.
