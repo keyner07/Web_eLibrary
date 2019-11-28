@@ -4,9 +4,17 @@ const bookModel= require('../../models/bookModel');
 
 function listAllBooks(){
     try {
-        return bookModel.find({isActive: true});
+        return bookModel.find({isActive: true}, {  isActive:0, __v: 0});
     }catch(err){
         console.error(`[bookRepository][listAllBooks] ${err}`);
+    }
+}
+
+function getBook(idBook) {
+    try {
+        return bookModel.findOne({_id: idBook, isActive: true}, { isActive: 0, __v: 0});
+    }catch(err){
+        console.error(`[getBook][bookRepository] ${err}`);
     }
 }
 
@@ -45,9 +53,18 @@ function deleteBook(idBook){
         console.error(`[bookRepository][deleteBook] ${err}`);
     }
 }
+function searchBook(query) {
+    try {
+        return bookModel.find({ title: { $regex: `.*${query}.*`}}, { isActive: true, __v: 0});
+    }catch(err) {
+        console.error(`[searchBook][bookRepository] ${err}`);
+    }
+}
 
 module.exports = {
     listAllBooks,
     create: createBook,
-    deleteBook
+    deleteBook,
+    findBook: getBook,
+    search: searchBook
 }

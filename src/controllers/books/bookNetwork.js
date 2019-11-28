@@ -50,3 +50,31 @@ exports.deleteBook = async function(req, res, next) {
     }
 }
 
+exports.findBookId = async function(req, res, next) {
+    try {
+        let result = await bookCTRL.findBook(req.params.idBook);
+        res 
+            .status(200)
+            .json({ result });
+    }catch(err) {
+        res
+            .status(500)
+            .json({ message: 'Ha ocurrido un error. '});
+    }
+}
+
+exports.searchBook = async function(req, res, next) {
+    console.log(req.query.search);
+    try {
+        let result = await bookCTRL.search(req.query.search);
+        res
+            .status(200)
+            .json({ result });
+    }catch(err) {
+        res
+            .status(500)
+            .json({ message: 'Ha  ocurrido un error'});
+            next();
+    }
+}
+

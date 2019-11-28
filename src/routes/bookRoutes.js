@@ -20,7 +20,9 @@ const m = multer({
   router.post("/upload", middleware.ensureAuthenticated,middleware.isAdmin, m.single("file"),upload.UploadFile,TTS.uploadAudio, bookNetwork.createBook);
 
   router.get('/m', middleware.ensureAuthenticated, bookNetwork.AllBooks);
-  router.delete('/deleteBook', middleware.ensureAuthenticated, middleware.isAdmin, bookNetwork.deleteBook)
+  router.delete('/deleteBook', middleware.ensureAuthenticated, middleware.isAdmin, bookNetwork.deleteBook);
+  router.get('/:idBook', middleware.ensureAuthenticated, bookNetwork.findBookId);
+  router.get('/search', middleware.ensureAuthenticated, bookNetwork.searchBook);
 
 
 
