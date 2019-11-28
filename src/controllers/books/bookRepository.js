@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const Book = require('../../models/bookModel');
+const bookModel= require('../../models/bookModel');
 
 
 function listAllBooks(){
@@ -11,7 +11,7 @@ function listAllBooks(){
 }
 
 function createBook(Book) {
-    let addBook = new Book({
+    let addBook = new bookModel({
         title: Book.title,
         author: Book.author,
         urlTxt: Book.urlTxt,
@@ -48,6 +48,6 @@ function deleteBook(idBook){
 
 module.exports = {
     listAllBooks,
-    createBook,
+    create: createBook,
     deleteBook
 }

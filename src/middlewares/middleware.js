@@ -28,7 +28,7 @@ exports.ensureAuthenticated = function(req, res, next) {
 }
 
 exports.isAdmin = async function(req, res, next){
-  console.log(req.body.payload.admin);
+  // console.log(req.body.payload.admin)
   if(req.body.payload.admin){
     next();
   }else{

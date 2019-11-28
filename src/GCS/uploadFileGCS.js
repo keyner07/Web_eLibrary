@@ -7,7 +7,6 @@ const TTS = require('./text-to-speech');
 // Instantiate a storage client
 
 exports.UploadFile = async function(req, res, next) {
-  console.log(req.file.buffer);
     const googleCloudStorage = new Storage({
       projectId: process.env.GCLOUD_PROJECT,
       keyFilename: process.env.GCS_KEYFILE
@@ -30,14 +29,19 @@ exports.UploadFile = async function(req, res, next) {
       });
 
       blobStream.on("error", err => {
-        next(err);
+        next();
         return;
       });
 
+      // var publicURLAudio = await TTS.uploadAudio(req);
+      // console.log('heyy' + publicURLAudio)
       blobStream.on("finish", () => {
         // The public URL can be used to directly access the file via HTTP.
-        // const publicUrl = `https://storage.googleapis.com/${bucket.name}/${blob.name}`;
+        const publicUrl = `https://storage.googleapis.com/${bucket.name}/${blob.name}`;
           // res.status(200).json({ message: `Success!\n Image uploaded to ${publicUrl}`});
+          // req.body.publicURLAudio = publicURLAudio;
+          req.body.publicUrlTxt = publicUrl;
+          // console.log(req.body)
           next();
         });
 

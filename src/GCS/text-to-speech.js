@@ -11,7 +11,7 @@ const client = new textToSpeech.TextToSpeechClient({
 /**
  * TODO(developer): Uncomment the following lines before running the sample.
  */
-exports.uploadAudio = async function(req,res, next) {
+ exports.uploadAudio = async function (req, res, next) {
   let string = Buffer.from(req.file.buffer, 'hex').toString('utf8')
     const request = {
       input: {text: string},
@@ -38,18 +38,17 @@ exports.uploadAudio = async function(req,res, next) {
 
     blobStream.on("error", err => {
       console.log(err);
-      return;
+      next();
     });
 
     blobStream.on("finish", () => {
-            // const publicUrl = `https://storage.googleapis.com/${bucket.name}/${blob.name}`;
-            //  console.log({ message: `Success!\n Image uploaded to ${publicUrl}`});
+            publicUrl = `https://storage.googleapis.com/${bucket.name}/${blob.name}`;
+            // console.log(`[TTS] ${publicUrl}`)
+            req.body.publicUrlmp3 = publicUrl;
             next();
     });
     blobStream.end(response.audioContent);
   }
 
-  module.exports = {
-    uploadAudio
-  }
+
 
