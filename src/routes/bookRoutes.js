@@ -17,9 +17,10 @@ const m = multer({
 });
 
 // Process the file upload and upload to Google Cloud Storage.
-router.post("/upload", middleware.ensureAuthenticated,middleware.isAdmin, m.single("file"),upload.UploadFile,TTS.uploadAudio, bookNetwork.createBook);
+  router.post("/upload", middleware.ensureAuthenticated,middleware.isAdmin, m.single("file"),upload.UploadFile,TTS.uploadAudio, bookNetwork.createBook);
 
   router.get('/m', middleware.ensureAuthenticated, bookNetwork.AllBooks);
+  router.delete('/deleteBook', middleware.ensureAuthenticated, middleware.isAdmin, bookNetwork.deleteBook)
 
 
 

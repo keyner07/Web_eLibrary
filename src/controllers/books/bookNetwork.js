@@ -5,7 +5,16 @@ const uploadGCS = require('../../GCS/uploadFileGCS');
 
 
 exports.AllBooks = async function(req, res, next) {
-    res.json({message: 'Perfecto'});
+    try {
+        let result = await bookCTRL.listAllBooks();
+        res
+            .status(200)
+            .send({ result });
+    } catch(err) {
+        res
+            .status(500)
+            .json({ message: 'Ha ocurrido un error'});
+    }
 }
 exports.createBook = async function(req, res, next) {
     let createBook = new Book(req.body.title, req.body.author, req.body.publicUrlTxt, req.body.publicUrlmp3, true);
@@ -22,6 +31,21 @@ exports.createBook = async function(req, res, next) {
         res
             .status(500)
             .json({ message: 'Ha ocurrido un error book network'});
+            next();
+    }
+}
+
+exports.deleteBook = async function(req, res, next) {
+    try {
+        let result = await bookCTRL.deleteBook(req.query.idBook);
+        res
+            .status(200)
+            .json({ result });
+    }catch(err){
+        console.error(`[deleteBook][bookNetwork] ${err}`);
+        res
+            .status(500)
+            .json({ message: 'Ha ocurrido un error. '})
             next();
     }
 }

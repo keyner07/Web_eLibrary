@@ -4,7 +4,7 @@ const bookModel= require('../../models/bookModel');
 
 function listAllBooks(){
     try {
-        return Book.find({isActive: true},{_id:0});
+        return bookModel.find({isActive: true});
     }catch(err){
         console.error(`[bookRepository][listAllBooks] ${err}`);
     }
@@ -39,7 +39,7 @@ function validationBook(book) {
 
 function deleteBook(idBook){
     try {
-        return Book.deleteOne({_id: idBook});
+        return bookModel.updateOne({_id: idBook}, {$set:{isActive: false}});
 
     } catch(err) {
         console.error(`[bookRepository][deleteBook] ${err}`);
