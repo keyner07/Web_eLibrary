@@ -30,8 +30,9 @@ exports.ensureAuthenticated = function(req, res, next) {
 
 // Aqui verificamos si es admin.
 exports.isAdmin = async function(req, res, next){
-  // console.log(req.body.payload.admin)
+  // console.log(req.body.payload.sub);
   if(req.body.payload.admin){
+    req.createdBy = req.body.payload.sub;
     next();
   }else{
     res.status(401).json({ message: "No es admin"});

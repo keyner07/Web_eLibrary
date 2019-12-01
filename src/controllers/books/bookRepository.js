@@ -26,10 +26,11 @@ function createBook(Book) {
         author: Book.author,
         urlTxt: Book.urlTxt,
         urlMp3: Book.urlMp3,
-        isActive: Book.isActive
+        isActive: Book.isActive,
+        createdBy: Book.createdBy
     })
     try {
-        return addBook.save();
+        return addBook.save({__v: 0, isActive: 0});
     }
     catch(err) {
         console.error(`[bookRepository][createBook] ${err}`);
@@ -37,15 +38,22 @@ function createBook(Book) {
 }
 // db.products.update({tipo:"HDD"},{$set:{cantidad:10}},{multi:true});
 
-function updateBook(idBook, Book) {
-    
-}
-
-function validationBook(book) {
-    if(book.title){
-        
+function updateBook(idBook, title, author) {
+    try {
+        if(title && author){
+            return bookModel.updateOne({_id: idBook}, {$set: { title: updateBook.title, author: updateBook.author}});
+        }
+        else if(author) {
+            return bookModel.updateOne({_id: idBook}, {$set: { author: updateBook.author}});
+        }
+        else if( title){
+            return bookModel.updateOne({_id: idBook}, {$set: { title: updateBook.title}});
+        }
+    } catch(err) {
+        console.error(`[bookRepository][updateBook] ${err}`);
     }
 }
+
 
 // Aqui eliminamos el libro.
 function deleteBook(idBook){
@@ -59,8 +67,11 @@ function deleteBook(idBook){
 
 // Aqui buscamos un libro por el titulo.
 function searchBook(query) {
+    const userRegex = new RegExp(query, 'i');
+    // { $regex: `/.*${query}.*/i`}
+    let query1 = `/^${query}/`
     try {
-        return bookModel.find({ title: { $regex: `.*${query}.*`}}, { isActive: true, __v: 0});
+        return bookModel.find({ title: query1 }, { isActive: 0, __v: 0});
     }catch(err) {
         console.error(`[searchBook][bookRepository] ${err}`);
     }
@@ -71,5 +82,6 @@ module.exports = {
     create: createBook,
     deleteBook,
     findBook: getBook,
-    search: searchBook
+    search: searchBook,
+    updateBook
 }

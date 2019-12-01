@@ -15,7 +15,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use('/', router);
 
 // Con esto hacemos la conexion a la base de datos.
-db(process.env.DATABASE_CONNECT_LOCALLY);
+db(process.env.DATABASE_CONNECT);
 
 
 app.use((req, res, next) => {

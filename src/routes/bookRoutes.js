@@ -17,7 +17,7 @@ const m = multer({
 });
 
 // Procesa el archivo txt, lo sube a Google cloud Storage, tambien sube el audio generado y guarda los datos en la base de datos.
-  router.post("/book", middleware.ensureAuthenticated,middleware.isAdmin, m.single("file"),upload.UploadFile,TTS.uploadAudio, bookNetwork.createBook);
+  router.post("/uploadBook", middleware.ensureAuthenticated,middleware.isAdmin, m.single("file"),upload.UploadFile,TTS.uploadAudio, bookNetwork.createBook);
 
 // Esta es la ruta que muestra todos los libros disponibles.
   router.get('/listBook', middleware.ensureAuthenticated, bookNetwork.AllBooks);
@@ -30,6 +30,9 @@ const m = multer({
 
 // Con esta ruta buscamos un libro por su titulo.
   router.get('/search', middleware.ensureAuthenticated, bookNetwork.searchBook);
+
+// Esta ruta es para editar un libro ya sea por titulo o autor
+router.put('/:idBook', middleware.ensureAuthenticated, middleware.isAdmin, bookNetwork.updateBook);
 
 
 

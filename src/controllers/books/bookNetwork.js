@@ -20,9 +20,8 @@ exports.AllBooks = async function(req, res, next) {
 
 // Aqui guardamos los datos del libro en el objecto Book y lo guardamos en la base de datos.
 exports.createBook = async function(req, res, next) {
-    let createBook = new Book(req.body.title, req.body.author, req.body.publicUrlTxt, req.body.publicUrlmp3, true);
+    let createBook = new Book(req.body.title, req.body.author, req.body.publicUrlTxt, req.body.publicUrlmp3, true, req.createdBy);
     try {
-        // console.log(req.body);
         const resultBook = await bookCTRL.create(createBook);
         res
             .status(200)
@@ -79,7 +78,22 @@ exports.searchBook = async function(req, res, next) {
     }catch(err) {
         res
             .status(500)
-            .json({ message: 'Ha  ocurrido un error'});
+            .json({ message: 'Estamos trabajando'});
+            next();
+    }
+}
+
+// Para editar un libro ya sea el titulo o el autor
+exports.updateBook = async function(req, res, next) {
+    try {
+        let result = await bookCTRL.updateBook(req.params.idBook, req.body.title, req.body.author);
+        res
+            .status(200)
+            .json({ result });
+    } catch(err) {
+        res
+            .status(500)
+            .json({ message: 'Ha ocurrido un error'});
             next();
     }
 }
