@@ -6,7 +6,8 @@ let BookSchema = new Schema({
     author: {type: String, lowercase: true, default: 'Unknown'},
     urlTxt: {type: String, required: true},
     urlMp3: {type: String, required: true},
-    isActive: {type: Boolean, default: true}
+    isActive: {type: Boolean, default: true},
+    createdBy: {type: Schema.Types.ObjectId, ref: "User", required: true}
 })
 
 module.exports = mongoose.model('Book', BookSchema);

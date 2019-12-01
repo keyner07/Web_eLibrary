@@ -4,13 +4,12 @@ const util = require('util');
 const { Storage } = require('@google-cloud/storage');
 const moment = require('moment');
 
+// Aqui inicializamos el cliente Text To Speech
 const client = new textToSpeech.TextToSpeechClient({
   keyFilename: process.env.GCS_KEYFILE_TTS
 });
 
-/**
- * TODO(developer): Uncomment the following lines before running the sample.
- */
+// Este es el middleware para la creacion y subida del audio.
  exports.uploadAudio = async function (req, res, next) {
   let string = Buffer.from(req.file.buffer, 'hex').toString('utf8')
     const request = {
@@ -20,7 +19,7 @@ const client = new textToSpeech.TextToSpeechClient({
     };
     const [response] = await client.synthesizeSpeech(request);
 
-    //Google cloud Storage
+    //Aqui nos autenticamos con Google cloud Storage
     const storage = new Storage({
       projectId: process.env.GCLOUD_PROJECT,
       keyFilename: process.env.GCS_KEYFILE_TTS

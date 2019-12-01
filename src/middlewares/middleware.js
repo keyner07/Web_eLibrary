@@ -1,6 +1,7 @@
 const jwt = require('../auth/services');
 const moment = require('moment');
 
+// Con este middleware verificamos las credenciales del JWT
 exports.ensureAuthenticated = function(req, res, next) {
   try {
   if(!req.headers.authorization) {
@@ -27,6 +28,7 @@ exports.ensureAuthenticated = function(req, res, next) {
 }
 }
 
+// Aqui verificamos si es admin.
 exports.isAdmin = async function(req, res, next){
   // console.log(req.body.payload.admin)
   if(req.body.payload.admin){

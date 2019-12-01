@@ -14,36 +14,36 @@ exports.UploadFile = async function(req, res, next) {
     let reqFileName = req.file.originalname
     let originalName = path.basename(reqFileName, path.extname(reqFileName))
     let extension = path.extname(reqFileName);
-    // A bucket is a container for objects (files).
+    
+    // Aqui nos localizamos en el bucket que queremos subir el archivo.
     const bucket = googleCloudStorage.bucket(process.env.GCS_BUCKET);
     let fileName = `${originalName}${moment().unix()}${extension}`
-      // Create a new blob in the bucket and upload the file data.
+      // Aqui creamos un archivo en el bucket donde lo subiremos
       const blob = bucket.file(fileName);
 
-      // Make sure to set the contentType metadata for the browser to be able
-      // to render the image instead of downloading the file (default behavior)
+      // Aqui comenzamos a escribir el archivo y le decimos que tipo de archivo es.
       const blobStream = blob.createWriteStream({
         metadata: {
           contentType: req.file.mimetype
         }
       });
 
+      // Esto se dispara cuando ocurre un error.
       blobStream.on("error", err => {
         next();
         return;
       });
 
-      // var publicURLAudio = await TTS.uploadAudio(req);
-      // console.log('heyy' + publicURLAudio)
+      // Esto se dispara cuando lo de escribir el archivo termina.
       blobStream.on("finish", () => {
-        // The public URL can be used to directly access the file via HTTP.
+        
         const publicUrl = `https://storage.googleapis.com/${bucket.name}/${blob.name}`;
-          // res.status(200).json({ message: `Success!\n Image uploaded to ${publicUrl}`});
-          // req.body.publicURLAudio = publicURLAudio;
+          
+        // Aqui guardamos el url.
           req.body.publicUrlTxt = publicUrl;
-          // console.log(req.body)
           next();
         });
-
+      
+      // Aqui se le pasa lo que escribira en el archivo del bucket.
       blobStream.end(req.file.buffer);
 }

@@ -4,6 +4,7 @@ const services = require('../../auth/services');
 const uploadGCS = require('../../GCS/uploadFileGCS');
 
 
+// Aqui mostramos todos los libros disponibles.
 exports.AllBooks = async function(req, res, next) {
     try {
         let result = await bookCTRL.listAllBooks();
@@ -16,6 +17,8 @@ exports.AllBooks = async function(req, res, next) {
             .json({ message: 'Ha ocurrido un error'});
     }
 }
+
+// Aqui guardamos los datos del libro en el objecto Book y lo guardamos en la base de datos.
 exports.createBook = async function(req, res, next) {
     let createBook = new Book(req.body.title, req.body.author, req.body.publicUrlTxt, req.body.publicUrlmp3, true);
     try {
@@ -35,9 +38,10 @@ exports.createBook = async function(req, res, next) {
     }
 }
 
+// Aqui borramos el libro de la base de datos.
 exports.deleteBook = async function(req, res, next) {
     try {
-        let result = await bookCTRL.deleteBook(req.query.idBook);
+        let result = await bookCTRL.deleteBook(req.params.idBook);
         res
             .status(200)
             .json({ result });
@@ -50,6 +54,7 @@ exports.deleteBook = async function(req, res, next) {
     }
 }
 
+// Buscamos un libro por su id.
 exports.findBookId = async function(req, res, next) {
     try {
         let result = await bookCTRL.findBook(req.params.idBook);
@@ -63,6 +68,7 @@ exports.findBookId = async function(req, res, next) {
     }
 }
 
+// Para buscar un libro por su titulo.
 exports.searchBook = async function(req, res, next) {
     console.log(req.query.search);
     try {

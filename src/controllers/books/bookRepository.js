@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const bookModel= require('../../models/bookModel');
 
-
+// Esta funcion interactua con la DB y busca todos los libros disponibles.
 function listAllBooks(){
     try {
         return bookModel.find({isActive: true}, {  isActive:0, __v: 0});
@@ -10,6 +10,7 @@ function listAllBooks(){
     }
 }
 
+// Esta funcion busca un libro por medio del id.
 function getBook(idBook) {
     try {
         return bookModel.findOne({_id: idBook, isActive: true}, { isActive: 0, __v: 0});
@@ -18,6 +19,7 @@ function getBook(idBook) {
     }
 }
 
+// Esta funcion guarda los datos del libro en la DB.
 function createBook(Book) {
     let addBook = new bookModel({
         title: Book.title,
@@ -45,6 +47,7 @@ function validationBook(book) {
     }
 }
 
+// Aqui eliminamos el libro.
 function deleteBook(idBook){
     try {
         return bookModel.updateOne({_id: idBook}, {$set:{isActive: false}});
@@ -53,6 +56,8 @@ function deleteBook(idBook){
         console.error(`[bookRepository][deleteBook] ${err}`);
     }
 }
+
+// Aqui buscamos un libro por el titulo.
 function searchBook(query) {
     try {
         return bookModel.find({ title: { $regex: `.*${query}.*`}}, { isActive: true, __v: 0});

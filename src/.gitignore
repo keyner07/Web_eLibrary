@@ -1,3 +1,5 @@
 node_modules
 .env
-*.json
+bookCreate.json
+userRegister.json
+webeLibrary-c695776bf69c.json
