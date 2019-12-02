@@ -29,7 +29,7 @@ const m = multer({
   router.get('/:idBook', middleware.ensureAuthenticated, bookNetwork.findBookId);
 
 // Con esta ruta buscamos un libro por su titulo.
-  router.get('/search', middleware.ensureAuthenticated, bookNetwork.searchBook);
+  router.get('/searchBook', middleware.ensureAuthenticated, bookNetwork.searchBook);
 
 // Esta ruta es para editar un libro ya sea por titulo o autor
 router.put('/:idBook', middleware.ensureAuthenticated, middleware.isAdmin, bookNetwork.updateBook);
