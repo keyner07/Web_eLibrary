@@ -10,7 +10,7 @@ exports.AllBooks = async function(req, res, next) {
         let result = await bookCTRL.listAllBooks();
         res
             .status(200)
-            .send({ result });
+            .send( result );
     } catch(err) {
         res
             .status(500)
@@ -25,7 +25,7 @@ exports.createBook = async function(req, res, next) {
         const resultBook = await bookCTRL.create(createBook);
         res
             .status(200)
-            .json({ resultBook })
+            .json( resultBook )
             .end();
             // console.log(resultBook);
     }catch(err) {
@@ -43,7 +43,7 @@ exports.deleteBook = async function(req, res, next) {
         let result = await bookCTRL.deleteBook(req.params.idBook);
         res
             .status(200)
-            .json({ result });
+            .json( result );
     }catch(err){
         console.error(`[deleteBook][bookNetwork] ${err}`);
         res
@@ -59,7 +59,7 @@ exports.findBookId = async function(req, res, next) {
         let result = await bookCTRL.findBook(req.params.idBook);
         res 
             .status(200)
-            .json({ result });
+            .json( result );
     }catch(err) {
         res
             .status(500)
@@ -74,7 +74,7 @@ exports.searchBook = async function(req, res, next) {
         let result = await bookCTRL.search(req.query.search);
         res
             .status(200)
-            .json({ result });
+            .json( result );
     }catch(err) {
         res
             .status(500)

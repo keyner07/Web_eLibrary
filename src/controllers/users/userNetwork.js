@@ -11,7 +11,7 @@ exports.signUp = async function(req,res, next) {
         const resultUser = await userCTRL.userSignUp(registerUser);
         res
             .status(201)
-            .json({ token: services.createToken(resultUser)});
+            .json({ message: 'Correct', token: services.createToken(resultUser)});
     }catch(err){
         res.status(500).json({message: `Ha ocurrido un error ${err}`});
         next();
